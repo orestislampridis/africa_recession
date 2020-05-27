@@ -1,0 +1,51 @@
+Variable,Description 
+pop,Population (in millions)
+emp,Number of persons engaged (in millions)
+emp_to_pop_ratio,Ratio of Employed Persons to Total Population
+hc,"Human capital index, based on years of schooling and returns to education; see Human capital in PWT9."
+ccon,"Real consumption of households and government, at current PPPs (in mil. 2011US$)"
+cda,"Real domestic absorption, (real consumption plus investment), at current PPPs (in mil. 2011US$)"
+cn,Capital stock at current PPPs (in mil. 2011US$)
+ck,Capital services levels at current PPPs (USA=1)
+ctfp,TFP level at current PPPs (USA=1)
+cwtfp,Welfare-relevant TFP levels at current PPPs (USA=1)
+rconna,Real consumption at constant 2011 national prices (in mil. 2011US$)
+rdana,Real domestic absorption at constant 2011 national prices (in mil. 2011US$)
+rnna,Capital stock at constant 2011 national prices (in mil. 2011US$)
+rkna,Capital services at constant 2011 national prices (2011=1)
+rtfpna,TFP at constant national prices (2011=1)
+rwtfpna,Welfare-relevant TFP at constant national prices (2011=1)
+labsh,Share of labour compensation in GDP at current national prices
+irr,Real internal rate of return
+delta,Average depreciation rate of the capital stock
+xr,"Exchange rate, national currency/USD (market+estimated)"
+pl_con,"Price level of CCON (PPP/XR), price level of USA GDPo in 2011=1"
+pl_da,"Price level of CDA (PPP/XR), price level of USA GDPo in 2011=1"
+pl_gdpo,"Price level of CGDPo (PPP/XR),  price level of USA GDPo in 2011=1"
+csh_c,Share of household consumption at current PPPs
+csh_i,Share of gross capital formation at current PPPs
+csh_g,Share of government consumption at current PPPs
+csh_x,Share of merchandise exports at current PPPs
+csh_m,Share of merchandise imports at current PPPs
+csh_r,Share of residual trade and GDP statistical discrepancy at current PPPs
+pl_c,"Price level of household consumption,  price level of USA GDPo in 2011=1"
+pl_i,"Price level of capital formation,  price level of USA GDPo in 2011=1"
+pl_g,"Price level of government consumption,  price level of USA GDPo in 2011=1"
+pl_x,"Price level of exports, price level of USA GDPo in 2011=1"
+pl_m,"Price level of imports, price level of USA GDPo in 2011=1"
+pl_n,"Price level of the capital stock, price level of USA in 2011=1"
+total,Annual Bank of Canada commodity price index - Total
+excl_energy,Annual Bank of Canada commodity price index - Excluding Energy
+energy,Annual Bank of Canada commodity price index - Energy
+metals_minerals,Annual Bank of Canada commodity price index - Metals and Minerals
+forestry,Annual Bank of Canada commodity price index - Forestry
+agriculture,Annual Bank of Canada commodity price index - Agriculture
+fish,Annual Bank of Canada commodity price index - Fish
+total_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Total
+excl_energy_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Excluding Energy
+energy_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Energy
+metals_minerals_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Metals and Minerals
+forestry_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Forestry
+agriculture_change, Year-on-Year Percentage Change  Annual Bank of Canada commodity price index - Agriculture
+fish_change, Year-on-Year Percentage Change Annual Bank of Canada commodity price index - Fish
+growthbucket,"""1"" = Recession; ""0"" = No_Recession"
