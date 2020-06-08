@@ -1,3 +1,5 @@
+import pickle
+
 import numpy as np
 
 from costcla import CostSensitiveDecisionTreeClassifier, CostSensitiveRandomForestClassifier
@@ -8,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier
 from cost_sensitive import Cost
 
 IMBALANCE_OPTION_SMOTE = "kImbalanceSMOTE"
-IMBALANCE_OPTION_OTHER = "kImbalanceOther"  # TODO: Please replace with final selected methods
+IMBALANCE_OPTION_OTHER = "kImbalanceOther"  # TODO: Please replace with final selected method
 
 COST_OPTION_REJECTION_SAMPLING = "kCostRejectionSample"
 COST_OPTION_MODEL = "kCostModel"
@@ -16,6 +18,9 @@ COST_OPTION_MODEL = "kCostModel"
 EXPLAIN_OPTION_WHITE_BOX = "kExplainableWhiteBox"
 EXPLAIN_OPTION_BLACK_BOX = "kExplainableBlackBox"
 
+
+def not_implemented(x, y):
+    return x, y
 
 class ModelConfiguration:
     cost = Cost(0, 0)
@@ -26,12 +31,37 @@ class ModelConfiguration:
     def __init__(self, cost: Cost, imbalance_option: str = IMBALANCE_OPTION_SMOTE,
                  cost_option: str = COST_OPTION_MODEL, explain_option: str = EXPLAIN_OPTION_WHITE_BOX):
         self.cost = cost
+
+        # Raise error, unrecognized value in imbalance option
+        if imbalance_option != IMBALANCE_OPTION_SMOTE and imbalance_option != IMBALANCE_OPTION_OTHER:
+            raise ValueError("Unexpected IMBALANCE option specified.")
+
         self.imbalance_option = imbalance_option
+
+        # Raise error, unrecognized value in cost option
+        if cost_option != COST_OPTION_REJECTION_SAMPLING and cost_option != COST_OPTION_MODEL:
+            raise ValueError("Unexpected COST option specified.")
+
         self.cost_option = cost_option
+
+        # Raise error, unrecognized value in explain option
+        if explain_option != EXPLAIN_OPTION_WHITE_BOX and explain_option != EXPLAIN_OPTION_BLACK_BOX:
+            raise ValueError("Unexpected EXPLAIN option specified.")
+
         self.explain_option = explain_option
 
     def transform_dataset(self, x, y):
-        # todo add actual impl
+        # todo add proper methods
+
+        if self.imbalance_option == IMBALANCE_OPTION_SMOTE:
+            # call smote func
+            x, y = not_implemented(x, y)
+        elif self.imbalance_option == IMBALANCE_OPTION_OTHER:
+            x, y = not_implemented(x, y)
+
+        if self.cost_option == COST_OPTION_REJECTION_SAMPLING:
+            x, y = not_implemented(x, y)
+
         return x, y
 
     def __get_model(self):
@@ -98,3 +128,7 @@ class MetaModel:
             return self.ml_model.predict(x)
         else:  # try to call predict unsafely, will raise error with wrong class
             return self.ml_model.predict(x)
+
+    def save_model(self, path):
+        pickle.dump(self.ml_model, open(path, "wb"))
+        return
