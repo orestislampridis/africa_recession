@@ -1,5 +1,7 @@
 import pandas as pd
+import numpy as np
 from costcla.sampling import cost_sampling
+from sklearn.ensemble import RandomForestClassifier
 
 
 class Cost:
@@ -25,6 +27,25 @@ class Cost:
             [self.cost_growth_predicted_recession, self.cost_recession_predicted_recession]
         ]
 
+    def costcla_cost_array(self, label):
+        cost_matrix = self.cost_matrix()
+        # Flatten & Reshape cost matrix for specific class
+
+        flat_cost_matrix = []
+        #  costcla = > [false positives, false negatives, true positives, true negatives]
+        if label == self.recession:
+            flat_cost_matrix = [self.cost_growth_predicted_recession,
+                                self.cost_recession_predicted_growth,
+                                self.cost_recession_predicted_recession,
+                                self.cost_growth_predicted_growth]
+        elif label == self.growth:
+            flat_cost_matrix = [self.cost_recession_predicted_growth,
+                                self.cost_growth_predicted_recession,
+                                self.cost_growth_predicted_growth,
+                                self.cost_recession_predicted_recession]
+
+        return np.asarray(cost_matrix).flatten()
+
     def cost_growth(self):
         cost = 0
 
@@ -43,7 +64,7 @@ class Cost:
 
         return cost
 
-    def recession_weight(self, x: list, y: list):
+    def recession_weight(self, x, y):
         n = 0
         n_recession = 0
         n_growth = 0
@@ -86,18 +107,23 @@ class Cost:
         return n * cost_growth / ((n_growth * cost_growth) + (n_recession * cost_recession))
 
 
-def cost_sensitive_data_re_balance(x: list, y: list, cost: Cost):
-    cost_matrix = cost.cost_matrix()
-    # Flatten & Reshape cost matrix
-    # costcla => [false positives, false negatives, true positives, true negatives]
-    flat_cost_matrix = [cost_matrix[0][1], cost_matrix[1][0], cost_matrix[1][1], cost_matrix[0][0]]
-    return cost_sampling(x, y, flat_cost_matrix)
+def cost_sensitive_data_re_balance(x, y, cost: Cost):
+    """
+
+    :param x: the examples in the dataset expect an array of shape [n,f] of n samples with f features
+    :param y: the label of each sample in the same order
+    :param cost: the cost definition
+    :return: [x], [y], cost_mat_cps
+    """
+
+    costs = []
+
+    for current_y in y:
+        costs_array = cost.costcla_cost_array(current_y)
+        costs.append(costs_array)
+
+    costs = np.asarray(costs)
+
+    return cost_sampling(x, y, costs)
 
 #   http://albahnsen.github.io/CostSensitiveClassification/Models.html
-
-def whitebox_model():
-    return "decision tree"
-
-
-def blackbox_model():
-    return "random forest"
