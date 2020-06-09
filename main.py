@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn import metrics
+
 from sklearn.model_selection import train_test_split
 
 from configuration import ModelConfiguration, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_OTHER, \
@@ -38,14 +38,7 @@ if __name__ == '__main__':
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
 
-    accuracy = metrics.accuracy_score(y_test, y_pred)
-    recall = metrics.recall_score(y_test, y_pred, average="macro")
-    precision = metrics.precision_score(y_test, y_pred, average="macro")
-    f1 = metrics.f1_score(y_test, y_pred, average="macro")
-    print("\tAccuracy: %f" % accuracy)
-    print("\tRecall: %f" % recall)
-    print("\tPrecision: %f" % precision)
-    print("\tF1: %f" % f1)
+    model.print_metrics(y_test, y_pred)
 
-    model.save_model("./models/model.sav")
+    model.save_model("./models")
     print("END")

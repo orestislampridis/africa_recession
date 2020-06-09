@@ -2,8 +2,8 @@ import pickle
 
 import numpy as np
 
-from costcla import CostSensitiveDecisionTreeClassifier, CostSensitiveRandomForestClassifier
-from sklearn.base import BaseEstimator
+from costcla import CostSensitiveDecisionTreeClassifier, CostSensitiveRandomForestClassifier, metrics as cost_metrics
+from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
@@ -128,6 +128,29 @@ class MetaModel:
             return self.ml_model.predict(x)
         else:  # try to call predict unsafely, will raise error with wrong class
             return self.ml_model.predict(x)
+
+    def print_metrics(self, y_test, y_pred):
+        if self.configuration.cost_option == COST_OPTION_MODEL:
+            costs = []
+
+            for current_y in y:
+                costs_array = self.configuration.cost.costcla_cost_array(current_y)
+                costs.append(costs_array)
+
+            costs = np.asarray(costs)
+
+            cost_loss = cost_metrics.cost_loss(y_test, y_pred, costs)
+            print("\nCost loss: %f" % cost_loss)
+
+        accuracy = metrics.accuracy_score(y_test, y_pred)
+        recall = metrics.recall_score(y_test, y_pred, average="macro")
+        precision = metrics.precision_score(y_test, y_pred, average="macro")
+        f1 = metrics.f1_score(y_test, y_pred, average="macro")
+
+        print("\tAccuracy: %f" % accuracy)
+        print("\tRecall: %f" % recall)
+        print("\tPrecision: %f" % precision)
+        print("\tF1: %f" % f1)
 
     def save_model(self, path):
         pickle.dump(self.ml_model, open(path, "wb"))
