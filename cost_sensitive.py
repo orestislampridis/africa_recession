@@ -115,7 +115,7 @@ def cost_sensitive_data_re_balance(x, y, cost: Cost):
     :param cost: the cost definition
     :return: [x], [y], cost_mat_cps
     """
-
+    print("----Rejection Sampling----")
     costs = []
 
     for current_y in y:
@@ -124,6 +124,7 @@ def cost_sensitive_data_re_balance(x, y, cost: Cost):
 
     costs = np.asarray(costs)
 
-    return cost_sampling(x, y, costs)
+    x, y, c = cost_sampling(x, y, costs)
+    return x, y
 
 #   http://albahnsen.github.io/CostSensitiveClassification/Models.html

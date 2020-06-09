@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-import numpy as np
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_selection import SelectKBest
@@ -119,129 +118,130 @@ def compare_classifiers(X_train, X_test, y_train, y_test):
 def random_over_sampler(x, y):
     print("----Random Oversampling----\n")
     sampler = RandomOverSampler(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 def smote(x, y):
-    print("----SMOTE----\n")
+    print("----SMOTE----")
     sampler = SMOTE(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 def borderline_smote(x, y):
-    print("----Borderline SMOTE----\n")
+    print("----Borderline SMOTE----")
     sampler = BorderlineSMOTE(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 def kmeans_smote(x, y):
-    print("----KMeans SMOTE----\n")
+    print("----KMeans SMOTE----")
     sampler = KMeansSMOTE(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 def adacyn(x, y):
-    print("----ADASYN----\n")
+    print("----ADASYN----")
     sampler = ADASYN(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 # Under-sampling methods
 def random_under_sampler(x, y):
-    print("----Random Undersampling----\n")
+    print("----Random Undersampling----")
     sampler = RandomUnderSampler(random_state=42)
-    X, y = sampler.fit_sample(X_train, y_train)
+    X, y = sampler.fit_sample(x, y)
     return X, y
 
 
 def tomek_links(x, y):  # use with other resampler
-    print("----TOMEK----\n")
+    print("----TOMEK----")
     sampler = TomekLinks()
-    X, y = sampler.fit_resample(X_train, y_train)
+    X, y = sampler.fit_resample(x, y)
     return X, y
 
 
 def near_miss(x, y, v=1):
-    print("----Near Miss----\n")
+    print("----Near Miss----")
     print("Version:", v)
     sampler = NearMiss(version=v)
-    X, y = sampler.fit_resample(X_train, y_train)
+    X, y = sampler.fit_resample(x, y)
     return X, y
 
 
 def one_sided_selection(x, y):
-    print("----One Sided Selection----\n")
+    print("----One Sided Selection----")
     sampler = OneSidedSelection()
-    X, y = sampler.fit_resample(X_train, y_train)
+    X, y = sampler.fit_resample(x, y)
     return X, y
 
 
 def neighbourhood_cleaning(x, y):
-    print("----Neighbourhood Cleaning Rule----\n")
+    print("----Neighbourhood Cleaning Rule----")
     sampler = NeighbourhoodCleaningRule()
-    X, y = sampler.fit_resample(X_train, y_train)
+    X, y = sampler.fit_resample(x, y)
     return X, y
 
 
 # Combination of over- and under-sampling methods
 def smotetomek(x, y):
-    print("----Smote Tomek----\n")
+    print("----Smote Tomek----")
     sampler = SMOTETomek()
-    X, y = sampler.fit_resample(X_train, y_train)
+    X, y = sampler.fit_resample(x, y)
     return X, y
 
 
-# load data
-df = pd.read_csv(r'dataset/africa_recession.csv', error_bad_lines=False)
-print(df.head(3))
+def imbalanced_test_main():
+    # load data
+    df = pd.read_csv(r'dataset/africa_recession.csv', error_bad_lines=False)
+    print(df.head(3))
 
-# minmax scale data
-df = scale_data(df)
+    # minmax scale data
+    df = scale_data(df)
 
-# uncomment to get 10 best features
-# best_features = get_best_features(df,10)
-# best_df_columns=best_features['features'].values.tolist()
-# best_df_columns.append('growthbucket')
-# df = df[df.columns.intersection(best_df_columns)]
-# print("Best features")
-# print(df.head(3))
+    # uncomment to get 10 best features
+    # best_features = get_best_features(df,10)
+    # best_df_columns=best_features['features'].values.tolist()
+    # best_df_columns.append('growthbucket')
+    # df = df[df.columns.intersection(best_df_columns)]
+    # print("Best features")
+    # print(df.head(3))
 
-# feature target split
-X = df.iloc[:, 0:-1]
-y = df.iloc[:, -1]
+    # feature target split
+    X = df.iloc[:, 0:-1]
+    y = df.iloc[:, -1]
 
-# train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.4, random_state=42)
+    # train-test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.4, random_state=42)
 
-# no resampler
-print("\n----No resample----\n")
-show_imbalance(X_train, y_train)
-pca_scatter(X_train, y_train)
-compare_classifiers(X_train, X_test, y_train, y_test)
-print("\n")
+    # no resampler
+    print("\n----No resample----\n")
+    show_imbalance(X_train, y_train)
+    pca_scatter(X_train, y_train)
+    compare_classifiers(X_train, X_test, y_train, y_test)
+    print("\n")
 
-# apply smote
-X_sm, y_sm = smote(X_train, y_train)
-show_imbalance(X_sm, y_sm, resample="Smote")
-pca_scatter(X_sm, y_sm)
-compare_classifiers(X_sm, X_test, y_sm, y_test)
-print("\n")
+    # apply smote
+    X_sm, y_sm = smote(X_train, y_train)
+    show_imbalance(X_sm, y_sm, resample="Smote")
+    pca_scatter(X_sm, y_sm)
+    compare_classifiers(X_sm, X_test, y_sm, y_test)
+    print("\n")
 
-# apply random over sampling
-X_ros, y_ros = random_over_sampler(X_train, y_train)
-show_imbalance(X_ros, y_ros, resample="Random Oversampling")
-pca_scatter(X_ros, y_ros)
-compare_classifiers(X_ros, X_test, y_ros, y_test)
-print("\n")
+    # apply random over sampling
+    X_ros, y_ros = random_over_sampler(X_train, y_train)
+    show_imbalance(X_ros, y_ros, resample="Random Oversampling")
+    pca_scatter(X_ros, y_ros)
+    compare_classifiers(X_ros, X_test, y_ros, y_test)
+    print("\n")
 
-# apply smotetomek
-X_st, y_st = smotetomek(X_train, y_train)
-show_imbalance(X_st, y_st, resample="SmoteTomek")
-pca_scatter(X_st, y_st)
-compare_classifiers(X_st, X_test, y_st, y_test)
-print("\n")
+    # apply smotetomek
+    X_st, y_st = smotetomek(X_train, y_train)
+    show_imbalance(X_st, y_st, resample="SmoteTomek")
+    pca_scatter(X_st, y_st)
+    compare_classifiers(X_st, X_test, y_st, y_test)
+    print("\n")

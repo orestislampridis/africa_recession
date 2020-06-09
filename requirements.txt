@@ -1,4 +1,7 @@
 numpy
-scikit-learn==0.22
+scikit-learn===0.22.2
+imbalanced-learn===0.6.2
 costcla==0.6
 pandas==1.0.4
+matplotlib
+seaborn
