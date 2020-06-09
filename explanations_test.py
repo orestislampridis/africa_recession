@@ -25,6 +25,7 @@ class_names = ["no recession", "recession"]
 
 print(X)
 print(y)
+print("test")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, stratify=y, test_size=0.25)
 
