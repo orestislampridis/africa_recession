@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
-from configuration import ModelConfiguration, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE, \
-    COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL, EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX
+from configuration import ModelConfiguration, IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE, \
+    COST_OPTION_NONE, COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL, EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX
 from cost_sensitive import Cost
 
 
@@ -54,10 +54,10 @@ if __name__ == '__main__':
     ]
 
     # Select one of: IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE
-    imbalance_options = [IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE]
+    imbalance_options = [IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE]
 
     # Select one of: COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL
-    cost_options = [COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL]
+    cost_options = [COST_OPTION_NONE, COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL]
 
     # Select one of: EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX
     explain_options = [EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX]
@@ -65,8 +65,12 @@ if __name__ == '__main__':
     for imbalance_option in imbalance_options:
         for cost_option in cost_options:
             for explain_option in explain_options:
-                print("Trying model...")
+                print()
+                print("-------------------------------------------------------------------------------------------")
+                print("Model with options:", imbalance_option, cost_option, explain_option)
                 try_model_with_options(costs[0], imbalance_option, cost_option, explain_option)
+                print("-------------------------------------------------------------------------------------------")
+                print()
 
 
     print("END")

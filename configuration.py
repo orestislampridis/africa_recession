@@ -11,9 +11,11 @@ from sklearn.tree import DecisionTreeClassifier
 from cost_sensitive import Cost, cost_sensitive_data_re_balance
 from imbalanced_test import smote, tomek_links, random_under_sampler
 
+IMBALANCE_OPTION_NONE = "kImbalanceNone"
 IMBALANCE_OPTION_SMOTE = "kImbalanceSMOTE"
 IMBALANCE_OPTION_TOMEK_UNDERSAMPLE = "kImbalanceTomekUndersample"
 
+COST_OPTION_NONE = "kCostOptionNone"
 COST_OPTION_REJECTION_SAMPLING = "kCostRejectionSample"
 COST_OPTION_MODEL = "kCostModel"
 
@@ -48,19 +50,19 @@ class ModelConfiguration:
         self.cost = cost
 
         # Raise error, unrecognized value in imbalance option
-        if imbalance_option != IMBALANCE_OPTION_SMOTE and imbalance_option != IMBALANCE_OPTION_TOMEK_UNDERSAMPLE:
+        if imbalance_option not in [IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE]:
             raise ValueError("Unexpected IMBALANCE option specified.")
 
         self.imbalance_option = imbalance_option
 
         # Raise error, unrecognized value in cost option
-        if cost_option != COST_OPTION_REJECTION_SAMPLING and cost_option != COST_OPTION_MODEL:
+        if cost_option not in [COST_OPTION_NONE, COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL]:
             raise ValueError("Unexpected COST option specified.")
 
         self.cost_option = cost_option
 
         # Raise error, unrecognized value in explain option
-        if explain_option != EXPLAIN_OPTION_WHITE_BOX and explain_option != EXPLAIN_OPTION_BLACK_BOX:
+        if explain_option not in [EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX]:
             raise ValueError("Unexpected EXPLAIN option specified.")
 
         self.explain_option = explain_option
@@ -161,9 +163,9 @@ class MetaModel:
             print("\tCost loss: %f" % cost_loss)
 
         accuracy = metrics.accuracy_score(y_test, y_pred)
-        recall = metrics.recall_score(y_test, y_pred, average="macro")
-        precision = metrics.precision_score(y_test, y_pred, average="macro")
-        f1 = metrics.f1_score(y_test, y_pred, average="macro")
+        recall = metrics.recall_score(y_test, y_pred)
+        precision = metrics.precision_score(y_test, y_pred)
+        f1 = metrics.f1_score(y_test, y_pred)
 
         print("\tAccuracy: %f" % accuracy)
         print("\tRecall: %f" % recall)
@@ -176,9 +178,15 @@ class MetaModel:
         elif isinstance(self.ml_model, CostSensitiveRandomForestClassifier):
             return "cost_random_forest_classifier"
         elif isinstance(self.ml_model, DecisionTreeClassifier):
-            return "decision_tree_classifier"
+            if self.configuration.cost_option == COST_OPTION_NONE:
+                return "no_cost_decision_tree_classifier"
+
+            return "cost_resample_decision_tree_classifier"
         elif isinstance(self.ml_model, RandomForestClassifier):
-            return "random_forest_classifier"
+            if self.configuration.cost_option == COST_OPTION_NONE:
+                return "no_cost_random_forest_classifier"
+
+            return "cost_resample_random_forest_classifier"
         else:  # unknown model
             return "unknown"
 
