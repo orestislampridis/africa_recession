@@ -4,10 +4,10 @@ Reading data-set...
 Creating ML model...
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.904110
-	Recall: 0.285714
-	Precision: 0.500000
-	F1: 0.363636
+	Accuracy: 0.890411
+	Recall: 0.357143
+	Precision: 0.416667
+	F1: 0.384615
 -------------------------------------------------------------------------------------------
 
 
@@ -87,10 +87,10 @@ Reading data-set...
 Creating ML model...
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.881041
-	Recall: 0.936170
-	Precision: 0.851613
-	F1: 0.891892
+	Accuracy: 0.910781
+	Recall: 0.914894
+	Precision: 0.914894
+	F1: 0.914894
 -------------------------------------------------------------------------------------------
 
 
@@ -101,10 +101,10 @@ Reading data-set...
 Creating ML model...
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.966543
-	Recall: 0.992908
-	Precision: 0.945946
-	F1: 0.968858
+	Accuracy: 0.955390
+	Recall: 0.978723
+	Precision: 0.938776
+	F1: 0.958333
 -------------------------------------------------------------------------------------------
 
 
@@ -191,10 +191,10 @@ Reading data-set...
 Creating ML model...
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.652174
-	Recall: 0.800000
-	Precision: 0.571429
-	F1: 0.666667
+	Accuracy: 0.695652
+	Recall: 0.900000
+	Precision: 0.600000
+	F1: 0.720000
 -------------------------------------------------------------------------------------------
 
 

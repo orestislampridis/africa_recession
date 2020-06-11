@@ -20,7 +20,7 @@ def try_model_with_options(cost: Cost, imbalance_option: str, cost_option: str, 
     print("Reading data-set...")
     data = pd.read_csv("./dataset/africa_recession.csv", delimiter=",")
 
-    x = np.asarray(data.iloc[:, :-2])
+    x = np.asarray(data.iloc[:, :-1])
     y = np.asarray(data.iloc[:, -1])
 
     scaler = MinMaxScaler()
