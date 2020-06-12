@@ -6,6 +6,7 @@ import numpy as np
 from costcla import CostSensitiveDecisionTreeClassifier, CostSensitiveRandomForestClassifier, metrics as cost_metrics
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 
 from cost_sensitive import Cost, cost_sensitive_data_re_balance
@@ -173,24 +174,25 @@ class MetaModel:
         print("\tF1: %f" % f1)
 
     def model_name(self):
+        name = ""
+
         if isinstance(self.ml_model, CostSensitiveDecisionTreeClassifier):
-            return "cost_decision_tree_classifier"
+            name = "cost_decision_tree_classifier"
         elif isinstance(self.ml_model, CostSensitiveRandomForestClassifier):
-            return "cost_random_forest_classifier"
+            name = "cost_random_forest_classifier"
         elif isinstance(self.ml_model, DecisionTreeClassifier):
             if self.configuration.cost_option == COST_OPTION_NONE:
-                return "no_cost_decision_tree_classifier"
-
-            return "cost_resample_decision_tree_classifier"
+                name = "no_cost_decision_tree_classifier"
+            else:
+                name = "cost_resample_decision_tree_classifier"
         elif isinstance(self.ml_model, RandomForestClassifier):
             if self.configuration.cost_option == COST_OPTION_NONE:
-                return "no_cost_random_forest_classifier"
-
-            return "cost_resample_random_forest_classifier"
+                name = "no_cost_random_forest_classifier"
+            else:
+                name = "cost_resample_random_forest_classifier"
         else:  # unknown model
-            return "unknown"
+            name = "unknown"
 
-    def save_model(self, path):
         imbalance_method = ""
 
         if self.configuration.imbalance_option == IMBALANCE_OPTION_SMOTE:
@@ -200,7 +202,49 @@ class MetaModel:
         else:
             imbalance_method = "no_imbalance_"
 
-        model_name = imbalance_method + self.model_name() + ".model"
+        model_name = imbalance_method + name
+        return model_name
+
+    def save_model(self, path):
+        model_name = self.model_name() + ".model"
         file_name = os.path.join(path, model_name)
         pickle.dump(self.ml_model, open(file_name, "wb"))
         return
+
+
+def ad_hoc_try_logistic_reg(imbalance_option: str, x_train, y_train, x_test, y_test, path: str):
+    name = "no_imbalance_no_cost_logistic_regression_classifier"
+
+    if imbalance_option == IMBALANCE_OPTION_SMOTE:
+        name = "smote_no_cost_logistic_regression_classifier"
+        # call smote func
+        x_train, y_train = smote(x_train, y_train)
+    elif imbalance_option == IMBALANCE_OPTION_TOMEK_UNDERSAMPLE:
+        name = "tomek_undersample_no_cost_logistic_regression_classifier"
+        # do tomek links + random under sampler
+        x_train, y_train = tomek_links(x_train, y_train)
+        x_train, y_train = random_under_sampler(x_train, y_train)
+
+    model = LogisticRegression()
+    print("Created ad-hoc model: ", name, ".")
+    model.fit(x_train, y_train)
+
+    print("Training ML model...")
+    y_pred = model.predict(x_test)
+
+    print("Evaluating ML model...")
+    accuracy = metrics.accuracy_score(y_test, y_pred)
+    recall = metrics.recall_score(y_test, y_pred)
+    precision = metrics.precision_score(y_test, y_pred)
+    f1 = metrics.f1_score(y_test, y_pred)
+
+    print("\tAccuracy: %f" % accuracy)
+    print("\tRecall: %f" % recall)
+    print("\tPrecision: %f" % precision)
+    print("\tF1: %f" % f1)
+
+    model_name = name + ".model"
+    file_name = os.path.join(path, model_name)
+    pickle.dump(model, open(file_name, "wb"))
+
+    return
