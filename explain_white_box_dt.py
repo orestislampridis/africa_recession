@@ -1,7 +1,6 @@
 import pickle
 
 import graphviz
-### Graphic libraries
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -13,11 +12,11 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv(r'dataset/africa_recession.csv', error_bad_lines=False)
 class_names = ["no recession", "recession"]
 
-# X = df.drop(columns=['growthbucket'])
-# y = df.growthbucket
+X = df.drop(columns=['growthbucket'])
+y = df.growthbucket
 
-X = df.iloc[:, :-2]
-y = df.iloc[:, -1]
+# X = df.iloc[:, :-2]
+# y = df.iloc[:, -1]
 
 print(len(X.columns))
 
