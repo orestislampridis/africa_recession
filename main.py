@@ -4,9 +4,14 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
-from configuration import ModelConfiguration, IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE, \
-    COST_OPTION_NONE, COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL, EXPLAIN_OPTION_WHITE_BOX, EXPLAIN_OPTION_BLACK_BOX
+from configuration import ModelConfiguration, IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, \
+    IMBALANCE_OPTION_TOMEK_UNDERSAMPLE, \
+    COST_OPTION_NONE, COST_OPTION_REJECTION_SAMPLING, COST_OPTION_MODEL, EXPLAIN_OPTION_WHITE_BOX, \
+    EXPLAIN_OPTION_BLACK_BOX, \
+    ad_hoc_try_logistic_reg
 from cost_sensitive import Cost
+
+create_ad_hoc_model = True
 
 
 def try_model_with_options(cost: Cost, imbalance_option: str, cost_option: str, explain_option: str):
@@ -26,14 +31,14 @@ def try_model_with_options(cost: Cost, imbalance_option: str, cost_option: str, 
     scaler = MinMaxScaler()
     x = scaler.fit_transform(x)
 
-    x, y = config.transform_dataset(x, y)
-
     # plit train test
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=8)
 
+    x_train, y_train = config.transform_dataset(x_train, y_train)
+
     # create model based on the provided options
-    print("Creating ML model...")
     model = config.create_model()
+    print("Created ML model", model.model_name(), ".")
 
     # train model
     print("Training ML model...")
@@ -46,6 +51,15 @@ def try_model_with_options(cost: Cost, imbalance_option: str, cost_option: str, 
 
     # save model for explanation
     model.save_model("./models")
+
+    # Ad hoc logistic regression
+    if config.cost_option == COST_OPTION_NONE and create_ad_hoc_model:
+        print("-------------------------------------------------------------------------------------------")
+        print()
+        print()
+        print("-------------------------------------------------------------------------------------------")
+        print("AD-HOC Model with options:", imbalance_option, cost_option, explain_option)
+        ad_hoc_try_logistic_reg(imbalance_option, x_train, y_train, x_test, y_test, "./models")
 
 
 if __name__ == '__main__':
@@ -71,6 +85,5 @@ if __name__ == '__main__':
                 try_model_with_options(costs[0], imbalance_option, cost_option, explain_option)
                 print("-------------------------------------------------------------------------------------------")
                 print()
-
 
     print("END")
