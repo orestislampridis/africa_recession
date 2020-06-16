@@ -64,7 +64,7 @@ def try_model_with_options(cost: Cost, imbalance_option: str, cost_option: str, 
 
 if __name__ == '__main__':
     costs = [
-        Cost(cost_recession_predicted_growth=3, cost_growth_predicted_recession=1)
+        Cost(cost_recession_predicted_growth=4, cost_growth_predicted_recession=1)
     ]
 
     # Select one of: IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE
