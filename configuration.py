@@ -10,11 +10,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 
 from cost_sensitive import Cost, cost_sensitive_data_re_balance
-from imbalanced_test import smote, tomek_links, random_under_sampler
+from imbalanced_test import smote, tomek_links, random_over_sampler
 
 IMBALANCE_OPTION_NONE = "kImbalanceNone"
 IMBALANCE_OPTION_SMOTE = "kImbalanceSMOTE"
-IMBALANCE_OPTION_TOMEK_UNDERSAMPLE = "kImbalanceTomekUndersample"
+IMBALANCE_OPTION_TOMEK_OVERSAMPLE = "kImbalanceTomekOversample"
 
 COST_OPTION_NONE = "kCostOptionNone"
 COST_OPTION_REJECTION_SAMPLING = "kCostRejectionSample"
@@ -51,7 +51,7 @@ class ModelConfiguration:
         self.cost = cost
 
         # Raise error, unrecognized value in imbalance option
-        if imbalance_option not in [IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_UNDERSAMPLE]:
+        if imbalance_option not in [IMBALANCE_OPTION_NONE, IMBALANCE_OPTION_SMOTE, IMBALANCE_OPTION_TOMEK_OVERSAMPLE]:
             raise ValueError("Unexpected IMBALANCE option specified.")
 
         self.imbalance_option = imbalance_option
@@ -72,10 +72,10 @@ class ModelConfiguration:
         if self.imbalance_option == IMBALANCE_OPTION_SMOTE:
             # call smote func
             x, y = smote(x, y)
-        elif self.imbalance_option == IMBALANCE_OPTION_TOMEK_UNDERSAMPLE:
-            # do tomek links + random under sampler
+        elif self.imbalance_option == IMBALANCE_OPTION_TOMEK_OVERSAMPLE:
+            # do tomek links + random over sampler
             x, y = tomek_links(x, y)
-            x, y = random_under_sampler(x, y)
+            x, y = random_over_sampler(x, y)
 
         if self.cost_option == COST_OPTION_REJECTION_SAMPLING:
             x, y = cost_sensitive_data_re_balance(x, y, self.cost)
@@ -197,8 +197,8 @@ class MetaModel:
 
         if self.configuration.imbalance_option == IMBALANCE_OPTION_SMOTE:
             imbalance_method = "smote_"
-        elif self.configuration.imbalance_option == IMBALANCE_OPTION_TOMEK_UNDERSAMPLE:
-            imbalance_method = "tomek_undersample_"
+        elif self.configuration.imbalance_option == IMBALANCE_OPTION_TOMEK_OVERSAMPLE:
+            imbalance_method = "tomek_oversample_"
         else:
             imbalance_method = "no_imbalance_"
 
@@ -219,11 +219,11 @@ def ad_hoc_try_logistic_reg(imbalance_option: str, x_train, y_train, x_test, y_t
         name = "smote_no_cost_logistic_regression_classifier"
         # call smote func
         x_train, y_train = smote(x_train, y_train)
-    elif imbalance_option == IMBALANCE_OPTION_TOMEK_UNDERSAMPLE:
-        name = "tomek_undersample_no_cost_logistic_regression_classifier"
+    elif imbalance_option == IMBALANCE_OPTION_TOMEK_OVERSAMPLE:
+        name = "tomek_oversample_no_cost_logistic_regression_classifier"
         # do tomek links + random under sampler
         x_train, y_train = tomek_links(x_train, y_train)
-        x_train, y_train = random_under_sampler(x_train, y_train)
+        x_train, y_train = random_over_sampler(x_train, y_train)
 
     model = LogisticRegression()
     print("Created ad-hoc model: ", name, ".")

@@ -1,14 +1,13 @@
-
 -------------------------------------------------------------------------------------------
 Model with options: kImbalanceNone kCostOptionNone kExplainableWhiteBox
 Reading data-set...
 Created ML model no_imbalance_no_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.869863
-	Recall: 0.285714
-	Precision: 0.307692
-	F1: 0.296296
+	Accuracy: 0.890411
+	Recall: 0.357143
+	Precision: 0.416667
+	F1: 0.384615
 -------------------------------------------------------------------------------------------
 
 
@@ -17,6 +16,8 @@ AD-HOC Model with options: kImbalanceNone kCostOptionNone kExplainableWhiteBox
 Created ad-hoc model:  no_imbalance_no_cost_logistic_regression_classifier .
 Training ML model...
 Evaluating ML model...
+C:\ProgramData\Anaconda3\envs\advanced_ML_project\lib\site-packages\sklearn\metrics\_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
 	Accuracy: 0.904110
 	Recall: 0.000000
 	Precision: 0.000000
@@ -40,6 +41,8 @@ Evaluating ML model...
 -------------------------------------------------------------------------------------------
 AD-HOC Model with options: kImbalanceNone kCostOptionNone kExplainableBlackBox
 Created ad-hoc model:  no_imbalance_no_cost_logistic_regression_classifier .
+C:\ProgramData\Anaconda3\envs\advanced_ML_project\lib\site-packages\sklearn\metrics\_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
 Training ML model...
 Evaluating ML model...
 	Accuracy: 0.904110
@@ -52,28 +55,26 @@ Evaluating ML model...
 -------------------------------------------------------------------------------------------
 Model with options: kImbalanceNone kCostRejectionSample kExplainableWhiteBox
 Reading data-set...
-----Rejection Sampling----
 Created ML model no_imbalance_cost_resample_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.890411
+	Recall: 0.285714
+	Precision: 0.400000
+	F1: 0.333333
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
 Model with options: kImbalanceNone kCostRejectionSample kExplainableBlackBox
 Reading data-set...
-----Rejection Sampling----
 Created ML model no_imbalance_cost_resample_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.917808
+	Recall: 0.142857
+	Precision: 1.000000
+	F1: 0.250000
 -------------------------------------------------------------------------------------------
 
 
@@ -83,11 +84,11 @@ Reading data-set...
 Created ML model no_imbalance_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 42.000000
+	Accuracy: 0.904110
+	Recall: 0.071429
+	Precision: 0.500000
+	F1: 0.125000
 -------------------------------------------------------------------------------------------
 
 
@@ -97,25 +98,27 @@ Reading data-set...
 Created ML model no_imbalance_cost_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 42.000000
+	Accuracy: 0.904110
+	Recall: 0.000000
+	Precision: 0.000000
+	F1: 0.000000
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
 Model with options: kImbalanceSMOTE kCostOptionNone kExplainableWhiteBox
 Reading data-set...
+C:\ProgramData\Anaconda3\envs\advanced_ML_project\lib\site-packages\sklearn\metrics\_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
 ----SMOTE----
 Created ML model smote_no_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.883562
+	Accuracy: 0.869863
 	Recall: 0.357143
-	Precision: 0.384615
-	F1: 0.370370
+	Precision: 0.333333
+	F1: 0.344828
 -------------------------------------------------------------------------------------------
 
 
@@ -139,10 +142,10 @@ Reading data-set...
 Created ML model smote_no_cost_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.924658
+	Accuracy: 0.910959
 	Recall: 0.357143
-	Precision: 0.714286
-	F1: 0.476190
+	Precision: 0.555556
+	F1: 0.434783
 -------------------------------------------------------------------------------------------
 
 
@@ -163,14 +166,13 @@ Evaluating ML model...
 Model with options: kImbalanceSMOTE kCostRejectionSample kExplainableWhiteBox
 Reading data-set...
 ----SMOTE----
-----Rejection Sampling----
 Created ML model smote_cost_resample_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.856164
+	Recall: 0.357143
+	Precision: 0.294118
+	F1: 0.322581
 -------------------------------------------------------------------------------------------
 
 
@@ -178,14 +180,13 @@ Evaluating ML model...
 Model with options: kImbalanceSMOTE kCostRejectionSample kExplainableBlackBox
 Reading data-set...
 ----SMOTE----
-----Rejection Sampling----
 Created ML model smote_cost_resample_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.931507
+	Recall: 0.285714
+	Precision: 1.000000
+	F1: 0.444444
 -------------------------------------------------------------------------------------------
 
 
@@ -196,11 +197,11 @@ Reading data-set...
 Created ML model smote_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 69.000000
+	Accuracy: 0.842466
+	Recall: 0.214286
+	Precision: 0.200000
+	F1: 0.206897
 -------------------------------------------------------------------------------------------
 
 
@@ -211,34 +212,36 @@ Reading data-set...
 Created ML model smote_cost_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 48.000000
+	Accuracy: 0.890411
+	Recall: 0.142857
+	Precision: 0.333333
+	F1: 0.200000
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostOptionNone kExplainableWhiteBox
+Model with options: kImbalanceTomekOversample kCostOptionNone kExplainableWhiteBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-Created ML model tomek_undersample_no_cost_decision_tree_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_no_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.705479
-	Recall: 0.857143
-	Precision: 0.226415
-	F1: 0.358209
+	Accuracy: 0.863014
+	Recall: 0.071429
+	Precision: 0.125000
+	F1: 0.090909
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-AD-HOC Model with options: kImbalanceTomekUndersample kCostOptionNone kExplainableWhiteBox
+AD-HOC Model with options: kImbalanceTomekOversample kCostOptionNone kExplainableWhiteBox
 ----TOMEK----
-----Random Undersampling----
-Created ad-hoc model:  tomek_undersample_no_cost_logistic_regression_classifier .
+----Random Oversampling----
+
+Created ad-hoc model:  tomek_oversample_no_cost_logistic_regression_classifier .
 Training ML model...
 Evaluating ML model...
 	Accuracy: 0.760274
@@ -249,25 +252,27 @@ Evaluating ML model...
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostOptionNone kExplainableBlackBox
+Model with options: kImbalanceTomekOversample kCostOptionNone kExplainableBlackBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-Created ML model tomek_undersample_no_cost_random_forest_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_no_cost_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.698630
-	Recall: 0.857143
-	Precision: 0.222222
+	Accuracy: 0.924658
+	Recall: 0.214286
+	Precision: 1.000000
 	F1: 0.352941
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-AD-HOC Model with options: kImbalanceTomekUndersample kCostOptionNone kExplainableBlackBox
+AD-HOC Model with options: kImbalanceTomekOversample kCostOptionNone kExplainableBlackBox
 ----TOMEK----
-----Random Undersampling----
-Created ad-hoc model:  tomek_undersample_no_cost_logistic_regression_classifier .
+----Random Oversampling----
+
+Created ad-hoc model:  tomek_oversample_no_cost_logistic_regression_classifier .
 Training ML model...
 Evaluating ML model...
 	Accuracy: 0.760274
@@ -278,64 +283,66 @@ Evaluating ML model...
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostRejectionSample kExplainableWhiteBox
+Model with options: kImbalanceTomekOversample kCostRejectionSample kExplainableWhiteBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-----Rejection Sampling----
-Created ML model tomek_undersample_cost_resample_decision_tree_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_cost_resample_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.869863
+	Recall: 0.000000
+	Precision: 0.000000
+	F1: 0.000000
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostRejectionSample kExplainableBlackBox
+Model with options: kImbalanceTomekOversample kCostRejectionSample kExplainableBlackBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-----Rejection Sampling----
-Created ML model tomek_undersample_cost_resample_random_forest_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_cost_resample_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Accuracy: 0.910959
+	Recall: 0.214286
+	Precision: 0.600000
+	F1: 0.315789
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostModel kExplainableWhiteBox
+Model with options: kImbalanceTomekOversample kCostModel kExplainableWhiteBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-Created ML model tomek_undersample_cost_decision_tree_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_cost_decision_tree_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 87.000000
+	Accuracy: 0.801370
+	Recall: 0.142857
+	Precision: 0.105263
+	F1: 0.121212
 -------------------------------------------------------------------------------------------
 
 
 -------------------------------------------------------------------------------------------
-Model with options: kImbalanceTomekUndersample kCostModel kExplainableBlackBox
+Model with options: kImbalanceTomekOversample kCostModel kExplainableBlackBox
 Reading data-set...
 ----TOMEK----
-----Random Undersampling----
-Created ML model tomek_undersample_cost_random_forest_classifier .
+----Random Oversampling----
+
+Created ML model tomek_oversample_cost_random_forest_classifier .
 Training ML model...
 Evaluating ML model...
-	Cost loss: 14.000000
-	Accuracy: 0.095890
-	Recall: 1.000000
-	Precision: 0.095890
-	F1: 0.175000
+	Cost loss: 51.000000
+	Accuracy: 0.883562
+	Recall: 0.142857
+	Precision: 0.285714
+	F1: 0.190476
 -------------------------------------------------------------------------------------------

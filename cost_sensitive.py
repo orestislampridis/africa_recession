@@ -44,7 +44,7 @@ class Cost:
                                 self.cost_growth_predicted_growth,
                                 self.cost_recession_predicted_recession]
 
-        return np.asarray(cost_matrix).flatten()
+        return np.asarray(flat_cost_matrix)#.flatten()
 
     def cost_growth(self):
         cost = 0
@@ -107,7 +107,7 @@ class Cost:
         return n * cost_growth / ((n_growth * cost_growth) + (n_recession * cost_recession))
 
 
-def cost_sensitive_data_re_balance(x, y, cost: Cost):
+def cost_sensitive_data_re_balance(x, y, cost: Cost, norm=0.1, wc=97.5):
     """
 
     :param x: the examples in the dataset expect an array of shape [n,f] of n samples with f features
@@ -115,7 +115,7 @@ def cost_sensitive_data_re_balance(x, y, cost: Cost):
     :param cost: the cost definition
     :return: [x], [y], cost_mat_cps
     """
-    print("----Rejection Sampling----")
+    # print("----Rejection Sampling----")
     costs = []
 
     for current_y in y:
@@ -124,7 +124,57 @@ def cost_sensitive_data_re_balance(x, y, cost: Cost):
 
     costs = np.asarray(costs)
 
-    x, y, c = cost_sampling(x, y, costs)
+    oversampling = "OverSampling"
+    rejection_sampling = "RejectionSampling"
+    x, y, c = cost_sampling(x, y, costs, method=rejection_sampling, oversampling_norm=norm, max_wc=wc)
     return x, y
 
+
 #   http://albahnsen.github.io/CostSensitiveClassification/Models.html
+
+def cost_grid_search(norm=0.1, wc=97.5):
+    data = pd.read_csv("./dataset/africa_recession.csv", delimiter=",")
+
+    x = np.asarray(data.iloc[:, :-1])
+    y = np.asarray(data.iloc[:, -1])
+
+    cost_recession_predicted_growth = 0.1
+    cost_growth_predicted_recession = 0.1
+
+    for n_recession_p_growth in range(0, 100):
+        for n_growth_p_recession in range(0, 100):
+            cost_recession_predicted_growth = 0.1 * n_recession_p_growth
+            cost_growth_predicted_recession = 0.1 * n_growth_p_recession
+
+            cost = Cost(cost_recession_predicted_growth, cost_growth_predicted_recession)
+
+            new_x, new_y = cost_sensitive_data_re_balance(x, y, cost, norm, wc)
+
+            recession_count = 0
+            growth_count = 0
+
+            for current_y in new_y:
+                if current_y == 1:
+                    recession_count += 1
+                else:
+                    recession_count += 1
+
+            if growth_count == 0:
+                continue
+
+            print("Costs (", cost_recession_predicted_growth, ",", cost_growth_predicted_recession, ") => Counts ("
+                  "Recession:", recession_count, "Growth:", growth_count, ").")
+
+
+def rejection_sampling_grid_search():
+
+    for n in range(0, 100):
+        norm = float(n)/100
+
+        for n_wc in range(0, 100):
+            wc = float(n_wc)
+
+            cost_grid_search(norm, wc)
+
+if __name__ == '__main__':
+    cost_grid_search()
