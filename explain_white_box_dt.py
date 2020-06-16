@@ -19,7 +19,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 X_resampled, y_resampled = SMOTE(random_state=0).fit_resample(X_train, y_train)
 
 # Filename of white box dt model to explain
-filename = "tomek_undersample_no_cost_decision_tree_classifier.model"
+filename = "smote_no_cost_decision_tree_classifier.model"
 
 # Load the model from disk
 loaded_model = pickle.load(open("models/" + filename, 'rb'))
