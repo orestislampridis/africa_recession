@@ -59,4 +59,4 @@ dot_data = tree.export_graphviz(loaded_model, out_file=None,
                                 special_characters=True)
 
 graph = graphviz.Source(dot_data)
-graph.render("explanations/" + filename + "_global_explanation")
+graph.render("explanations/" + filename + "_global_explanation_short_tree")
