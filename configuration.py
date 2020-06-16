@@ -86,9 +86,9 @@ class ModelConfiguration:
 
         if self.explain_option == EXPLAIN_OPTION_WHITE_BOX:
             if self.cost_option == COST_OPTION_MODEL:
-                return CostSensitiveDecisionTreeClassifier()
+                return CostSensitiveDecisionTreeClassifier(max_depth=5)
             else:
-                return DecisionTreeClassifier()
+                return DecisionTreeClassifier(max_depth=5)
         else:
             if self.cost_option == COST_OPTION_MODEL:
                 return CostSensitiveRandomForestClassifier()

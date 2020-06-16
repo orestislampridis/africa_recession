@@ -8,8 +8,20 @@ from imblearn.over_sampling import SMOTE
 from sklearn import tree
 from sklearn.metrics import recall_score, precision_score, accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+
+def scale_data(df):
+    minmax = MinMaxScaler()
+    columns = list(df.columns.values)
+    scaled_df = minmax.fit_transform(df)
+    scaled_df = pd.DataFrame(scaled_df, columns=columns)
+    return scaled_df
+
 
 df = pd.read_csv(r'dataset/africa_recession.csv', error_bad_lines=False)
+df = scale_data(df)
+
 class_names = ["no recession", "recession"]
 
 X = df.drop(columns=['growthbucket'])
@@ -59,4 +71,4 @@ dot_data = tree.export_graphviz(loaded_model, out_file=None,
                                 special_characters=True)
 
 graph = graphviz.Source(dot_data)
-graph.render("explanations/" + filename + "_global_explanation")
+graph.render("explanations/" + filename + "_global_explanation_short_tree")
