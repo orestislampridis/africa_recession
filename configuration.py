@@ -163,6 +163,9 @@ class MetaModel:
             cost_loss = cost_metrics.cost_loss(y_test, y_pred, costs)
             print("\tCost loss: %f" % cost_loss)
 
+            bin_class_metrics = cost_metrics.binary_classification_metrics(y_test, y_pred, y_pred)
+            print("\tBinary classification metrics:", bin_class_metrics)
+
         accuracy = metrics.accuracy_score(y_test, y_pred)
         recall = metrics.recall_score(y_test, y_pred)
         precision = metrics.precision_score(y_test, y_pred)
