@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 from sklearn import tree
-from sklearn.metrics import recall_score, precision_score, accuracy_score, f1_score
+from sklearn.metrics import recall_score, precision_score, accuracy_score, f1_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
@@ -17,6 +17,12 @@ def scale_data(df):
     scaled_df = minmax.fit_transform(df)
     scaled_df = pd.DataFrame(scaled_df, columns=columns)
     return scaled_df
+
+
+def evaluation_scores(test, prediction, class_names=None):
+    print('Accuracy:', accuracy_score(test, prediction))
+    print('-' * 60)
+    print('classification report:\n\n', classification_report(y_true=test, y_pred=prediction, target_names=class_names))
 
 
 df = pd.read_csv(r'dataset/africa_recession.csv', error_bad_lines=False)
@@ -31,7 +37,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 X_resampled, y_resampled = SMOTE(random_state=0).fit_resample(X_train, y_train)
 
 # Filename of white box dt model to explain
-filename = "smote_no_cost_decision_tree_classifier.model"
+filename = "tomek_oversample_no_cost_decision_tree_classifier.model"
 
 # Load the model from disk
 loaded_model = pickle.load(open("models/" + filename, 'rb'))
@@ -40,10 +46,7 @@ y_train_pred = loaded_model.predict(X_train)
 y_predicted = loaded_model.predict(X_test)
 
 # Print evaluation metrics
-print("accuracy: ", accuracy_score(y_test, y_predicted))
-print("precision: ", precision_score(y_test, y_predicted))
-print("recall: ", recall_score(y_test, y_predicted))
-print("f1 score: ", f1_score(y_test, y_predicted))
+print(evaluation_scores(y_test, y_predicted, class_names=class_names))
 
 importances = loaded_model.feature_importances_
 indices = np.argsort(importances)[::-1]
@@ -52,7 +55,7 @@ indices = np.argsort(importances)[::-1]
 print("Feature ranking:")
 
 for f in range(X.shape[1]):
-    print("%d. %s (%f)" % (f + 1, df.columns[f], importances[indices[f]]))
+    print("%d. %s (%f)" % (f + 1, df.columns[indices[f]], importances[indices[f]]))
 
 # Plot the top 10 feature importances of the decision tree
 plt.figure()
